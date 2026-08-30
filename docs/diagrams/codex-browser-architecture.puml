@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+title Codex Browser VPS Container
+
+actor "Your computer" as pc
+cloud "ChatGPT" as chatgpt
+
+node "VPS" as vps {
+  node "Docker" as docker {
+    frame "codex-browser" as container {
+      component "Kasm Chromium" as chromium
+      component "Terminal" as terminal
+      component "Node.js 22" as nodejs
+      component "Codex CLI" as codex
+      folder "/home/kasm-user/.codex" as codexhome
+      folder "/opt/codex-browser/codex/auth.json" as hostauth
+
+      chromium --> terminal : same desktop
+      terminal --> codex : run `codex`
+      nodejs --> codex : runtime
+      codex --> codexhome : writes auth.json
+    }
+  }
+}
+
+pc --> chromium : https://VPS_IP:6901
+chromium --> chatgpt : OAuth browser flow
+codexhome --> hostauth : bind mount
+
+@enduml

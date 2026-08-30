@@ -1,0 +1,13 @@
+services:
+  codex-browser:
+    image: codex-browser:local
+    container_name: codex-browser
+    restart: unless-stopped
+    shm_size: "1gb"
+    ports:
+      - "6901:6901"
+    environment:
+      VNC_PW: ${VNC_PW:-password}
+    volumes:
+      - ./codex:/home/kasm-user/.codex
+
